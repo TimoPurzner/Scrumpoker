@@ -1,0 +1,17 @@
+.estimation-view {
+
+    &__button {
+
+        &--normal {
+            background-color: gray;
+        }
+
+        &--error {
+            background-color: red;
+        }
+
+        &--success {
+            background-color: green;
+        }
+    }
+}
