@@ -23,7 +23,7 @@ export default function Login() {
     }
 
     async function joinRoom() {
-        const user: User  = await (await api('users/', 
+        const user: User  = await (await api('users/',
             {
                 method: 'POST',
                 body: JSON.stringify({user: {name: name, estimation_room: roomId}})
@@ -34,21 +34,36 @@ export default function Login() {
     }
 
     return (
-    <div>
-        <div>
-            Login
-            Name: <input type='text' value={name} onChange={ (event) => setName(event.target.value)} />
-            Raum ID: <input type='text' value={roomId} onChange={ (event) => setRommId(event.target.value)} />
-            <button onClick={joinRoom}>Raum beitreten</button>
+    <div className='login'>
+        <h1 className='login__header'>
+            Scrumpoker
+        </h1>
+        <div className='login__user'>
+            <h2 className='login__user__header'>Login</h2>
+            <div className='login__user__inputs'>
+                <div className='login__user__inputs__name'>
+                    <label htmlFor='name'>Name:</label>
+                    <input id='name' type='text' placeholder='Anzeigename'
+                        value={name} onChange={ (event) => setName(event.target.value)} 
+                    />
+                </div>
+                <div className='login__user__inputs__room'>
+                    <label htmlFor='room-id'>Raum ID:</label>
+                    <input id='room-id' type='text' placeholder='Estimation Raum'
+                        value={roomId} onChange={ (event) => setRommId(event.target.value)}
+                    />
+                </div>
+            </div>
+            <button className='login__user__join-room' onClick={joinRoom}>Raum beitreten</button>
         </div>
-        <div>
-            ORDER
-        </div>
-        <div>
+        <h2 className='login__or'>
+            ODER
+        </h2>
+        <div className='login__create'>
             <button onClick={createRoom}>Raum erstellen</button>
         </div>
     </div>
     );
-    }
+}
 
 export { route }

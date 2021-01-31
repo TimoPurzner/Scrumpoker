@@ -1,3 +1,57 @@
 @font-face {
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');
 }
+
+$primary: #424B54;
+$secondary: #93A8AC;
+$contrast: white;
+
+* {
+    color: $primary;
+}
+
+button, input[type=submit] {
+    padding: 0.5em;
+    border: 2px solid $primary;
+    border-radius: 0.3em;
+    background-color: inherit;
+    cursor: pointer;
+    font-weight: bold;
+
+    &:hover {
+        background-color: $secondary;
+        color: $contrast;
+    }
+}
+
+label {
+    font-size: 1.2em;
+}
+
+input[type=text] {
+    color: $primary;
+    font-size: 1.2em;
+    border: 0;
+    border-bottom: 1px solid $primary;
+    padding-left: 0.25em;
+    min-height: 2em;
+    &::placeholder {
+        color: $secondary;
+    }
+}
+
+h1 {
+    font-size: 3rem;
+    border-bottom: solid 3px $secondary;
+    font-weight: bold;
+}
+
+h2 {
+    font-size: 2.5rem;
+    &::after {
+        content: '';
+        display: block;
+        border-bottom: solid 2px $secondary;
+        width: 20%;
+    }
+}

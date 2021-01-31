@@ -1,0 +1,49 @@
+.login {
+    width: 30%;
+    margin: auto;
+    margin-top: 5%;
+    &__header {
+        width: 100%;
+    }
+    &__user {
+        display: flex;
+        flex-direction: column;
+        &__header{
+            margin-bottom: 0.5em;
+        }
+        &__inputs {
+            display: table;
+            &__name {
+                display: table-row;
+                input {
+                    display: table-cell;
+                    width: 100%;
+                }
+                label {
+                    display: table-cell;
+                }
+            }
+            &__room {
+                display: table-row;
+                input {
+                    display: table-cell;
+                    width: 100%;
+                }
+                label {
+                    display: table-cell;
+                }
+            }
+        }
+        &__join-room {
+            align-self: flex-end;
+            margin-top: 1em;
+        }
+    }
+    &__create {
+        height: 3em;
+        button {
+            height: 100%;
+            width: 100%;
+        }
+    }
+}
