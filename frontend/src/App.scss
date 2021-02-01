@@ -14,7 +14,7 @@ button, input[type=submit] {
     background-color: inherit;
     cursor: pointer;
     font-weight: bold;
-
+    outline: none;
     &:hover {
         background-color: $secondary;
         color: $contrast;
@@ -22,8 +22,17 @@ button, input[type=submit] {
 
     &.big {
         font-size: 1.2em;
-        border: 3px solid $primary;
+        border-width: 3px;
     }
+
+    &.success {
+        border-color: $success;
+    }
+
+    &.error {
+        border-color: $error;
+    }
+
 }
 
 label {

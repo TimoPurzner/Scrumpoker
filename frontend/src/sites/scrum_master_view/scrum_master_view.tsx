@@ -12,6 +12,7 @@ export default function ScrumMasterView() {
 
     const { id } = useParams<Record<string, string>>();
     const [story, setStory] = useState('');
+    const [storyState, setStoryState] = useState('');
     const [estimationRoom, setEtimationRoom] = useState<EstimationRoom>();
     const tooltip = {tooltip: 'Klick to copy'};
 
@@ -20,10 +21,16 @@ export default function ScrumMasterView() {
         .then((estimationRoom: EstimationRoom) => {
             setStory(estimationRoom.story);
             setEtimationRoom(estimationRoom);
-            
         });
         
     }, [id]);
+
+    function updateStory() {
+        api(`estimation_rooms/${id}`, {method: 'PUT', body: JSON.stringify({story:  story})})
+        .then( _ => setStoryState('success'))
+        .catch( _ => setStoryState('error'))
+        .finally( () => { setTimeout( () => {setStoryState('')}, 1000 ) });
+    }
 
     function roomIdToClickboard() {
         var tempInput = document.createElement("input");
@@ -47,13 +54,16 @@ export default function ScrumMasterView() {
             </span>
         </div>
         <div className='scrum-master__story-input'>
-            <textarea contentEditable='true'
+            <textarea
                 className='scrum-master__story-input__textarea'
                 placeholder='Beschreibe die zuschätzende Story kurz'
                 onChange={(event) => setStory(event.target.value)} 
                 value={story}
             />
-            <button className='scrum-master__story-input__submit big'>Setze Story</button>
+            <button className={`scrum-master__story-input__submit big ${storyState}`}
+                onClick={updateStory}>
+                    Setze Story
+            </button>
         </div>
         <div className='scrum-master__users'>
             <div className='scrum-master__users__header'>

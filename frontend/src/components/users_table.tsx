@@ -3,14 +3,10 @@ import api from '../api/http-client';
 import { connectToRoom, onMessage } from '../api/ws-client';
 import EstimationRoom from '../model/estimation-room';
 import User from '../model/user';
+import WSType from '../model/ws-type';
 
 type UsersTableProps = {
   room_id: string,
-}
-
-type WSType = {
-  room: EstimationRoom,
-  users: User[]
 }
 
 export default function UsersTable(props: UsersTableProps) {
