@@ -1,10 +1,7 @@
+@import 'colors.scss';
 @font-face {
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');
 }
-
-$primary: #424B54;
-$secondary: #93A8AC;
-$contrast: white;
 
 * {
     color: $primary;
@@ -21,6 +18,11 @@ button, input[type=submit] {
     &:hover {
         background-color: $secondary;
         color: $contrast;
+    }
+
+    &.big {
+        font-size: 1.2em;
+        border: 3px solid $primary;
     }
 }
 
@@ -54,4 +56,22 @@ h2 {
         border-bottom: solid 2px $secondary;
         width: 20%;
     }
+}
+
+*[tooltip] {
+    position: relative;
+    border-bottom: 2px solid $secondary;
+    &:hover:before {
+        content: attr(tooltip);
+        background-color: $secondary;
+        color: $contrast;
+        border-radius: 0.2em;
+        padding: 0.2em;
+        text-align: center;
+        bottom: -1.8em;
+        left: 10%;
+        position: absolute;
+        white-space: nowrap;
+        width: 200px;
+      }
 }
