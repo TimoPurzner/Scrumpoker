@@ -66,9 +66,9 @@ export default function ScrumMasterView() {
             </button>
         </div>
         <div className='scrum-master__users'>
-            <div className='scrum-master__users__header'>
+            <h2 className='scrum-master__users__header'>
                 Teilnehmer:
-            </div>
+            </h2>
             <UsersTable room_id={id} />
         </div>
     </div>

@@ -12,7 +12,7 @@ export default function EstimationView() {
     const [estimation, setEstimation] = useState('');
     const [currentStory, setCurrentStory] = useState('');
     const [estimationRoom, setEstimationRoom] = useState<EstimationRoom>();
-    const [deliverState, setDeliverState] = useState('normal');
+    const [deliverState, setDeliverState] = useState('');
 
     useEffect(() => {
       api(`estimation_rooms/${id}`)
@@ -32,7 +32,7 @@ export default function EstimationView() {
 
 
     useEffect(() => {
-      setDeliverState('normal')
+      setDeliverState('')
     }, [estimation]);
 
     function sendEstimation() {
@@ -55,7 +55,7 @@ export default function EstimationView() {
 
       Schätzung: <input type="text" value={estimation} onChange={(event)=> setEstimation(event.target.value)}/>
       <button 
-        className={`estimation-view__button estimation-view__button--${deliverState}`}
+        className={`estimation-view__button ${deliverState}`}
         onClick={sendEstimation}>
         Setzen
         </button>
