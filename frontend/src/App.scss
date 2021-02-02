@@ -84,3 +84,39 @@ h2 {
         width: 200px;
       }
 }
+
+div[error] {
+    border: 3px solid $error;
+    background-color: lighten($error, 80%);
+}
+
+table {
+    width: 50%;
+    box-shadow: 0 0 40px 0 lighten($primary, 40%);
+    border-collapse: collapse;
+    thead {
+        background-color: $primary;
+        th {
+            color: $contrast;
+            font-size: 1.3em;
+            padding: 0.8em;
+            text-align: left;
+        }
+    }
+    tbody{
+        tr:nth-of-type(even) {
+            background-color: darken($contrast, 5%);
+        }
+        tr {
+            &:hover {
+                background-color: $secondary;
+                color: $contrast;
+            }
+        }
+        td {
+            font-size: 1.2em;
+            padding: 0.8em;
+        }
+    }
+    
+}

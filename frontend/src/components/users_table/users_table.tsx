@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
-import api from '../api/http-client';
-import { connectToRoom, onMessage } from '../api/ws-client';
-import EstimationRoom from '../model/estimation-room';
-import User from '../model/user';
-import WSType from '../model/ws-type';
+import api from '../../api/http-client';
+import { connectToRoom, onMessage } from '../../api/ws-client';
+import EstimationRoom from '../../model/estimation-room';
+import User from '../../model/user';
+import WSType from '../../model/ws-type';
+
+import './users_table.scss';
 
 type UsersTableProps = {
   room_id: string,
@@ -35,10 +37,10 @@ export default function UsersTable(props: UsersTableProps) {
   return (
     <div className='users-table'>
       <table className='users-table__table'>
-        <thead>
+        <thead className='users-table__table__head'>
             <tr>
-                <th>Name</th>
-                <th>Schätzung</th>
+                <th className='users-table__table__th'>Name</th>
+                <th className='users-table__table__th'>Schätzung</th>
             </tr>
         </thead>
         <tbody>
@@ -50,9 +52,9 @@ export default function UsersTable(props: UsersTableProps) {
         ))}
         </tbody>
       </table>
-    {error && 
-      <div>
-        Verbindung zum Server nicht möglich Daten werden nicht in echtzeit aktualisiert
+    {error &&
+      <div error={error}>
+        Verbindung zum Server nicht möglich Daten werden nicht aktualisiert
       </div>
     }
     

@@ -1,0 +1,14 @@
+$media-max-mobile:800px;
+$media-max-tablet:1024px;
+
+@mixin media-all {
+  @media only screen and (max-width: $media-max-tablet){@content}
+}
+
+@mixin media-mobile{
+  @media only screen and (max-width: 800px) {@content}
+}
+
+@mixin media-tablet{
+  @media only screen and (min-width: $media-max-mobile+1) and (max-width: $media-max-tablet) {@content}
+}

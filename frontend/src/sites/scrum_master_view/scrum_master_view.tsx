@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import EstimationRoom from '../../model/estimation-room';
 import api from '../../api/http-client';
-import UsersTable from '../../components/users_table';
+import UsersTable from '../../components/users_table/users_table';
 
 import './scrum_master_view.scss'
 

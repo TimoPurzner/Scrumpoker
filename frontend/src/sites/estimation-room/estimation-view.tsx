@@ -11,13 +11,11 @@ export default function EstimationView() {
     const { id } = useParams<Record<string, string>>();
     const [estimation, setEstimation] = useState('');
     const [currentStory, setCurrentStory] = useState('');
-    const [estimationRoom, setEstimationRoom] = useState<EstimationRoom>();
     const [deliverState, setDeliverState] = useState('');
 
     useEffect(() => {
       api(`estimation_rooms/${id}`)
       .then((estimationRoom: EstimationRoom) => {
-        setEstimationRoom(estimationRoom);
         setCurrentStory(estimationRoom.story);
       });
       const realTimeUpdates = async () => {

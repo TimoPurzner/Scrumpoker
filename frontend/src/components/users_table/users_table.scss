@@ -1,0 +1,10 @@
+@import '../../media-queries.scss';
+
+.users-table {
+    &__table {
+        width: 50%;
+        @include media-all {
+            width: 100%;
+        }
+    }
+}
