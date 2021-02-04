@@ -1,3 +1,16 @@
+@import '../../media-queries.scss';
 .estimation-view {
-    
+    &__header {
+        width: 40%;
+        @include media-all {
+            width: 100%;
+        }
+    }
+    &__story {
+        font-size: 2em;
+    }
+    &__estimate {
+        margin-top: 2em;
+    }
+
 }
