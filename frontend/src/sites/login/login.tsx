@@ -16,8 +16,6 @@ export default function Login() {
   const [joinRoomLoading, setJoinRoomLoading] = useState(false);
   const [entryRoomActive, setEntryRoomActive] = useState(false);
 
-  navigator.clipboard.readText().then((text) => console.log(text));
-
   async function createRoom() {
     api('estimation_rooms/', { method: 'POST' })
       .then((estimationRoom: EstimationRoom) => {
