@@ -41,29 +41,29 @@ export default function Login() {
   }, [name, roomId]);
 
   return (
-    <div className="login">
-      <h1 className="login__header">Scrumpoker</h1>
-      <div className="login__user">
-        <h2 className="login__user__header">Login</h2>
-        <form className="login__form">
-          <label htmlFor="name">Name:</label>
+    <div className='login'>
+      <h1 className='login__header'>Scrumpoker</h1>
+      <div className='login__user'>
+        <h2 className='login__user__header'>Login</h2>
+        <form className='login__form'>
+          <label htmlFor='name'>Name:</label>
           <input
-            id="name"
-            type="text"
-            placeholder="Anzeigename"
+            id='name'
+            type='text'
+            placeholder='Anzeigename'
             value={name}
             onChange={(event) => setName(event.target.value)}
           />
-          <label htmlFor="room-id">Raum ID:</label>
+          <label htmlFor='room-id'>Raum ID:</label>
           <input
-            id="room-id"
-            type="text"
-            placeholder="Estimation Raum"
+            id='room-id'
+            type='text'
+            placeholder='Estimation Raum'
             value={roomId}
             onChange={(event) => setRommId(event.target.value)}
           />
           <Button
-            className="login__form__button"
+            className='login__form__button'
             onClick={joinRoom}
             loading={joinRoomLoading}
             disabled={!entryRoomActive}
@@ -73,7 +73,7 @@ export default function Login() {
         </form>
       </div>
       <h2>ODER</h2>
-      <Button className="login__create" onClick={createRoom}>
+      <Button className='login__create' onClick={createRoom}>
         Raum erstellen
       </Button>
     </div>

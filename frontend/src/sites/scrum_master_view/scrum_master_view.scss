@@ -1,40 +1,41 @@
-
 @import '../../colors.scss';
 .scrum-master {
+  &__header {
+    width: 50%;
+  }
+  &__share {
+    font-size: 1.3rem;
+    &__code {
+      font-weight: bold;
+      margin-left: 0.3em;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+  &__story-input {
+    width: 80%;
+    margin-top: 2em !important;
+    &__textarea {
+      outline: none;
+      width: 100%;
+      overflow: hidden;
+      border: 0;
+      font-size: 2rem;
+      line-height: 2rem;
+      height: auto;
+      background-image: linear-gradient(
+        transparent,
+        transparent calc(2rem - 1px),
+        $secondary 0px
+      );
+      background-size: 100% 2rem;
+    }
+    &__submit {
+    }
+  }
+  &__users {
     &__header {
-        width:50%;
     }
-    &__share {
-        font-size: 1.3rem;
-        &__code {
-            font-weight: bold;
-            margin-left: 0.3em;
-            &:hover{
-                cursor: pointer;
-            }
-        }
-    }
-    &__story-input {
-        width: 80%;
-        margin-top: 2em!important;
-        &__textarea {
-            outline: none;
-            width: 100%;
-            overflow:hidden;
-            border: 0;
-            font-size: 2rem;
-            line-height: 2rem;
-            height: auto;
-            background-image: linear-gradient(transparent, transparent calc(2rem - 1px), $secondary 0px);
-            background-size: 100% 2rem;
-        }
-        &__submit {
-            
-        }
-    }
-    &__users {
-        &__header {
-
-        }
-    }
+  }
 }
