@@ -1,7 +1,14 @@
+@import '../../media-queries.scss';
 .login {
   width: 30%;
   margin: auto;
   margin-top: 5%;
+  @include  media-mobile {
+    width: 100%;
+  }
+  @include  media-tablet {
+    width: 80%;
+  }
   &__header {
     width: 100%;
   }
@@ -15,6 +22,9 @@
   &__create {
     height: 4em;
     width: 100%;
+  }
+  &__errors {
+    margin-top: 2em;
   }
 
   &__form {

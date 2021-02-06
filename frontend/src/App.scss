@@ -87,9 +87,10 @@ h2 {
   }
 }
 
-div[error] {
+div.error {
   border: 3px solid $error;
   background-color: lighten($error, 80%);
+  padding: 1em;
 }
 
 table {

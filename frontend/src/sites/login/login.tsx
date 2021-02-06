@@ -15,25 +15,30 @@ export default function Login() {
   const [roomId, setRommId] = useState('');
   const [joinRoomLoading, setJoinRoomLoading] = useState(false);
   const [entryRoomActive, setEntryRoomActive] = useState(false);
+  const [errors, setErrors] = useState<String[]>([]);
 
   async function createRoom() {
     api('estimation_rooms/', { method: 'POST' })
       .then((estimationRoom: EstimationRoom) => {
         history.push(scrumMasterRoute.replace(':id', estimationRoom._id));
-      })
-      .catch();
+      });
   }
 
   async function joinRoom() {
     setJoinRoomLoading(true);
-    const user: User = await api('users/', {
+    api('users/', {
       method: 'POST',
       body: JSON.stringify({ user: { name: name, estimation_room: roomId } }),
+    }).then((user: User) => {
+      sessionStorage.setItem('user_id', user._id);
+      setJoinRoomLoading(false);
+      history.push(estimationViewRoute.replace(':id', user.estimation_room_id));
+    }).catch((error) => {
+      console.log(error);
+      if(error.estimation_room.includes("estimation_room_empty")) setErrors([...errors, 'Es konnte kein raum unter dem Angegeben Code gefunden werden'])
+      setJoinRoomLoading(false);
     });
-    sessionStorage.setItem('user_id', user._id);
-    console.log(user);
-    setJoinRoomLoading(false);
-    history.push(estimationViewRoute.replace(':id', user.estimation_room_id));
+    
   }
 
   useEffect(() => {
@@ -71,6 +76,13 @@ export default function Login() {
             Raum beitreten
           </Button>
         </form>
+        <div className='login__errors'>
+        {errors.map( error => 
+            <div key={error.toString()} className='error'>
+                {error}
+            </div>
+        )}
+        </div>
       </div>
       <h2>ODER</h2>
       <Button className='login__create' onClick={createRoom}>

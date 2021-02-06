@@ -16,7 +16,6 @@ class UsersController < ApplicationController
   # POST /users
   def create
     @user = User.new(user_params)
-
     if @user.save
       EstimationRoomChannel.broadcast_to(@user.estimation_room, {room: @user.estimation_room, users: @user.estimation_room.users})
       render json: @user, status: :created, location: @user

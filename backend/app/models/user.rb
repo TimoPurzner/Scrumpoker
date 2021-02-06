@@ -7,4 +7,7 @@ class User
 
   belongs_to :estimation_room
 
+  validates_associated :estimation_room, message: 'estimation_room_does_not_exist'
+  validates_presence_of :estimation_room, message: 'estimation_room_empty'
+
 end

@@ -51,7 +51,7 @@ export default function UsersTable(props: UsersTableProps) {
         </tbody>
       </table>
       {error && (
-        <div error={error}>
+        <div className='error'>
           Verbindung zum Server nicht möglich Daten werden nicht aktualisiert
         </div>
       )}

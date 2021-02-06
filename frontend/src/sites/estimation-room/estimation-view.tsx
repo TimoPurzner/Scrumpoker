@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import EstimationRoom from '../../model/estimation-room';
+import {route as loginRoute} from '../login/login';
 import api from '../../api/http-client';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { connectToRoom, onMessage } from '../../api/ws-client';
 import WSType from '../../model/ws-type';
 import './estimation-view.scss';
@@ -9,6 +10,7 @@ import './estimation-view.scss';
 const route = '/estimation-room/:id';
 export default function EstimationView() {
   const { id } = useParams<Record<string, string>>();
+  const history = useHistory();
   const [estimation, setEstimation] = useState('');
   const [currentStory, setCurrentStory] = useState('');
   const [deliverState, setDeliverState] = useState('');
@@ -20,7 +22,7 @@ export default function EstimationView() {
   useEffect(() => {
     api(`estimation_rooms/${id}`).then((estimationRoom: EstimationRoom) => {
       setCurrentStory(estimationRoom.story);
-    });
+    }).catch(_ => history.push(loginRoute));
     const realTimeUpdates = async () => {
       const socket = await connectToRoom(id);
       onMessage(socket, (data: WSType) => {
