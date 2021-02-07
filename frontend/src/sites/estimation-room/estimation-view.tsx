@@ -33,7 +33,7 @@ export default function EstimationView() {
       };
     };
     realTimeUpdates();
-  }, [id]);
+  }, [id, history]);
 
   useEffect(() => {
     setDeliverState('');

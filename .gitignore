@@ -267,20 +267,20 @@ dist
 *.rbc
 capybara-*.html
 .rspec
-/db/*.sqlite3
-/db/*.sqlite3-journal
-/db/*.sqlite3-[0-9]*
-/public/system
-/coverage/
-/spec/tmp
-rerun.txt
-pickle-email-*.html
+/backend/db/*.sqlite3
+/backend/db/*.sqlite3-journal
+/backend/db/*.sqlite3-[0-9]*
+/backend/public/system
+/backend/coverage/
+/backend/spec/tmp
+/backendrerun.txt
+/backendpickle-email-*.html
 
 # Ignore all logfiles and tempfiles.
-/log/*
-/tmp/*
-!/log/.keep
-!/tmp/.keep
+/backend/log/*
+/backend/tmp/*
+/backend!/log/.keep
+!/backend/tmp/.keep
 
 # TODO Comment out this rule if you are OK with secrets being uploaded to the repo
 config/initializers/secret_token.rb

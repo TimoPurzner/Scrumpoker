@@ -35,7 +35,9 @@ export default function Login() {
       history.push(estimationViewRoute.replace(':id', user.estimation_room_id));
     }).catch((error) => {
       console.log(error);
-      if(error.estimation_room.includes("estimation_room_empty")) setErrors([...errors, 'Es konnte kein raum unter dem Angegeben Code gefunden werden'])
+      if(error.estimation_room.includes("estimation_room_empty")) {
+        setErrors([...errors, 'Es konnte kein Raum unter dem Angegeben Code gefunden werden'])
+      }
       setJoinRoomLoading(false);
     });
     

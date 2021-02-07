@@ -26,6 +26,12 @@ class EstimationRoomsController < ApplicationController
   # PATCH/PUT /estimation_rooms/1
   def update
     if @estimation_room.update(estimation_room_params)
+      if(params['story'])
+        @estimation_room.users.each do |user|
+          user.estimation = nil
+          user.save
+        end
+      end
       EstimationRoomChannel.broadcast_to(@estimation_room, {room: @estimation_room, users: @estimation_room.users})
       render json: @estimation_room
     else
