@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import EstimationRoom from '../../model/estimation-room';
-import {route as loginRoute} from '../login/login';
+import { route as loginRoute } from '../login/login';
 import api from '../../api/http-client';
 import { useHistory, useParams } from 'react-router-dom';
 import { connectToRoom, onMessage } from '../../api/ws-client';
@@ -11,23 +11,26 @@ const route = '/estimation-room/:id';
 export default function EstimationView() {
   const { id } = useParams<Record<string, string>>();
   const history = useHistory();
-  const [estimation, setEstimation] = useState('');
   const [currentStory, setCurrentStory] = useState('');
-  const [deliverState, setDeliverState] = useState('');
+  const estimationForm = useRef(null);
+  const estimationOptions = ['1', '2', '3', '5', '8', '13', '20', '40', '?'];
 
   useEffect(() => {
-    setEstimation('');
+    const currentForm = estimationForm.current;
+    if (currentForm) {
+      (currentForm as HTMLFormElement).reset();
+    }
   }, [currentStory]);
 
   useEffect(() => {
-    api(`estimation_rooms/${id}`).then((estimationRoom: EstimationRoom) => {
-      setCurrentStory(estimationRoom.story);
-    }).catch(_ => history.push(loginRoute));
+    api(`estimation_rooms/${id}`)
+      .then((estimationRoom: EstimationRoom) => {
+        setCurrentStory(estimationRoom.story);
+      })
+      .catch((_) => history.push(loginRoute));
     const realTimeUpdates = async () => {
       const socket = await connectToRoom(id);
-      onMessage(socket, (data: WSType) => {
-        setCurrentStory(data.room.story);
-      });
+      onMessage(socket, (data: WSType) => setCurrentStory(data.room.story));
       socket.onerror = () => {
         console.log('Fehler bei der Websocket verbindung');
       };
@@ -35,48 +38,46 @@ export default function EstimationView() {
     realTimeUpdates();
   }, [id, history]);
 
-  useEffect(() => {
-    setDeliverState('');
-  }, [estimation]);
-
-  function sendEstimation() {
+  function sendEstimation(estimation: string) {
     const user_id = sessionStorage.getItem('user_id');
     api(`users/${user_id}`, {
       headers: { 'Content-Type': 'application/json' },
       method: 'put',
       body: JSON.stringify({ user: { estimation: estimation } }),
-    })
-      .then((response) => setDeliverState('success'))
-      .catch((error) => setDeliverState('error'));
+    });
   }
 
   return (
-    <div className="estimation-view">
-      <h1 className="estimation-view__header">Estimation Raum</h1>
+    <div className='estimation-view'>
+      <h1 className='estimation-view__header'>Estimation Raum</h1>
       <p>
-        Du bist aktuell im Raum
-        <span tooltip="Teile die ID, damit andere dem Raum beitreten können">
-          {' '}
-          {id}{' '}
+        Raum:
+        <span tooltip='Teile die ID, damit andere dem Raum beitreten können'>
+          {id}
         </span>
-        und wirst dem Scrummaster als TODO: angezeigt.
       </p>
       <h2>Aktuelle Story:</h2>
-      <div className="estimation-view__story">{currentStory}</div>
-      <div className="estimation-view__estimate">
-        Schätzung:{' '}
-        <input
-          type="text"
-          value={estimation}
-          onChange={(event) => setEstimation(event.target.value)}
-        />
-        <button
-          className={`estimation-view__button ${deliverState}`}
-          onClick={sendEstimation}
-        >
-          Setzen
-        </button>
-      </div>
+      <div className='estimation-view__story'>{currentStory}</div>
+      <h3 className='estimation-view__estimate'>Meine Schätzung</h3>
+      <form ref={estimationForm}>
+        <div className='estimation-view__cards'>
+          {estimationOptions.map((estimationOption, index) => (
+            <span key={index} className='card'>
+              <input
+                id={index.toString()}
+                className='card__input'
+                type='radio'
+                name='estimation'
+                value={estimationOption}
+                onChange={() => sendEstimation(estimationOption)}
+              />
+              <label className='card__label' htmlFor={index.toString()}>
+                {estimationOption}
+              </label>
+            </span>
+          ))}
+        </div>
+      </form>
     </div>
   );
 }

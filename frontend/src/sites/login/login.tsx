@@ -34,12 +34,10 @@ export default function Login() {
       setJoinRoomLoading(false);
       history.push(estimationViewRoute.replace(':id', user.estimation_room_id));
     }).catch((error) => {
-      console.log(error);
-      if(error.estimation_room.includes("estimation_room_empty")) {
+      if(error.estimation_room?.includes("estimation_room_empty")) {
         setErrors([...errors, 'Es konnte kein Raum unter dem Angegeben Code gefunden werden'])
       }
-      setJoinRoomLoading(false);
-    });
+    }).finally(() => setJoinRoomLoading(false));
     
   }
 
