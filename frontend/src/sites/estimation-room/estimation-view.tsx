@@ -48,30 +48,32 @@ export default function EstimationView() {
   }
 
   return (
-    <div className='estimation-view'>
+    <div className='estimation-view container'>
       <h1 className='estimation-view__header'>Estimation Raum</h1>
-      <p>
-        Raum:
-        <span tooltip='Teile die ID, damit andere dem Raum beitreten können'>
-          {id}
-        </span>
-      </p>
-      <h2>Aktuelle Story:</h2>
-      <div className='estimation-view__story'>{currentStory}</div>
-      <h3 className='estimation-view__estimate'>Meine Schätzung</h3>
+      <div className='card'>
+        <p>
+          Raum:
+          <span tooltip='Teile die ID, damit andere dem Raum beitreten können'>
+            {id}
+          </span>
+        </p>
+        <h2>Aktuelle Story:</h2>
+        <div className='estimation-view__story'>{currentStory}</div>
+        <h3 className='estimation-view__estimate'>Meine Schätzung</h3>
+      </div>
       <form ref={estimationForm}>
         <div className='estimation-view__cards'>
           {estimationOptions.map((estimationOption, index) => (
-            <span key={index} className='card'>
+            <span key={index} className='poker-card'>
               <input
                 id={index.toString()}
-                className='card__input'
+                className='poker-card__input'
                 type='radio'
                 name='estimation'
                 value={estimationOption}
                 onChange={() => sendEstimation(estimationOption)}
               />
-              <label className='card__label' htmlFor={index.toString()}>
+              <label className='poker-card__label' htmlFor={index.toString()}>
                 {estimationOption}
               </label>
             </span>

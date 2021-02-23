@@ -23,7 +23,8 @@ export default function Login() {
     api('estimation_rooms/', { method: 'POST' })
       .then((estimationRoom: EstimationRoom) => {
         history.push(scrumMasterRoute.replace(':id', estimationRoom._id));
-      }).finally( () => setCreateRoomLoading(false));
+      })
+      .finally(() => setCreateRoomLoading(false));
   }
 
   async function joinRoom() {
@@ -31,16 +32,23 @@ export default function Login() {
     api('users/', {
       method: 'POST',
       body: JSON.stringify({ user: { name: name, estimation_room: roomId } }),
-    }).then((user: User) => {
-      sessionStorage.setItem('user_id', user._id);
-      setJoinRoomLoading(false);
-      history.push(estimationViewRoute.replace(':id', user.estimation_room_id));
-    }).catch((error) => {
-      if(error.estimation_room?.includes("estimation_room_empty")) {
-        setErrors([...errors, 'Es konnte kein Raum unter dem Angegeben Code gefunden werden'])
-      }
-    }).finally(() => setJoinRoomLoading(false));
-    
+    })
+      .then((user: User) => {
+        sessionStorage.setItem('user_id', user._id);
+        setJoinRoomLoading(false);
+        history.push(
+          estimationViewRoute.replace(':id', user.estimation_room_id)
+        );
+      })
+      .catch((error) => {
+        if (error.estimation_room?.includes('estimation_room_empty')) {
+          setErrors([
+            ...errors,
+            'Es konnte kein Raum unter dem Angegeben Code gefunden werden',
+          ]);
+        }
+      })
+      .finally(() => setJoinRoomLoading(false));
   }
 
   useEffect(() => {
@@ -48,48 +56,56 @@ export default function Login() {
   }, [name, roomId]);
 
   return (
-    <div className='login'>
+    <div className='login container'>
       <h1 className='login__header'>Scrumpoker</h1>
-      <div className='login__user'>
-        <h2 className='login__user__header'>Login</h2>
-        <form className='login__form'>
-          <label htmlFor='name'>Name:</label>
-          <input
-            id='name'
-            type='text'
-            placeholder='Anzeigename'
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-          />
-          <label htmlFor='room-id'>Raum ID:</label>
-          <input
-            id='room-id'
-            type='text'
-            placeholder='Estimation Raum'
-            value={roomId}
-            onChange={(event) => setRommId(event.target.value)}
-          />
-          <Button
-            className='login__form__button'
-            onClick={joinRoom}
-            loading={joinRoomLoading}
-            disabled={!entryRoomActive}
-          >
-            Raum beitreten
-          </Button>
-        </form>
-        <div className='login__errors'>
-        {errors.map( error => 
-            <div key={error.toString()} className='error'>
+      <div className='login__grid'>
+        <div className='login__user card'>
+          <h2 className='login__user__header'>Login</h2>
+          <form className='login__form'>
+            <label htmlFor='name'>Name:</label>
+            <input
+              id='name'
+              type='text'
+              placeholder='Anzeigename'
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+            />
+            <label htmlFor='room-id'>Raum ID:</label>
+            <input
+              id='room-id'
+              type='text'
+              placeholder='Estimation Raum'
+              value={roomId}
+              onChange={(event) => setRommId(event.target.value)}
+            />
+            <Button
+              className='login__form__button'
+              onClick={joinRoom}
+              loading={joinRoomLoading}
+              disabled={!entryRoomActive}
+            >
+              Raum beitreten
+            </Button>
+          </form>
+          <div className='login__errors'>
+            {errors.map((error) => (
+              <div key={error.toString()} className='error'>
                 {error}
-            </div>
-        )}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className='card'>
+          <h2>New Room</h2>
+          <Button
+            className='login__create'
+            loading={createRoomLoading}
+            onClick={createRoom}
+          >
+            Raum erstellen
+          </Button>
         </div>
       </div>
-      <h2>ODER</h2>
-      <Button className='login__create' loading={createRoomLoading} onClick={createRoom}>
-        Raum erstellen
-      </Button>
     </div>
   );
 }

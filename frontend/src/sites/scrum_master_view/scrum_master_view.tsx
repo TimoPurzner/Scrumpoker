@@ -49,32 +49,31 @@ export default function ScrumMasterView() {
   }
 
   return (
-    <div className='scrum-master'>
+    <div className='scrum-master container'>
       <h1 className='scrum-master__header'>SCRUM-Estimation Übersicht</h1>
-      <div className='scrum-master__share'>
-        Code zum teilen für Teilnehmer:
-        <span
-          id='scrum-master-room-id'
-          {...tooltip}
-          className='scrum-master__share__code'
-          onClick={roomIdToClickboard}
-        >
-          {estimationRoom?._id}
-        </span>
-      </div>
-      <div className='scrum-master__story-input'>
-        <textarea
-          className='scrum-master__story-input__textarea'
-          placeholder='Beschreibe die zuschätzende Story kurz'
-          onChange={(event) => setStory(event.target.value)}
-          value={story}
-        />
-        <button
-          className={`scrum-master__story-input__submit big ${storyState}`}
-          onClick={updateStory}
-        >
-          Setze Story
-        </button>
+      <div className='card'>
+        <div className='scrum-master__share'>
+          Code zum teilen für Teilnehmer:
+          <span
+            id='scrum-master-room-id'
+            {...tooltip}
+            className='scrum-master__share__code'
+            onClick={roomIdToClickboard}
+          >
+            {estimationRoom?._id}
+          </span>
+        </div>
+        <div className='scrum-master__story-input'>
+          <textarea
+            className='scrum-master__story-input__textarea'
+            placeholder='Beschreibe die zuschätzende Story kurz'
+            onChange={(event) => setStory(event.target.value)}
+            value={story}
+          />
+          <button className={`big ${storyState}`} onClick={updateStory}>
+            Setze Story
+          </button>
+        </div>
       </div>
       <div className='scrum-master__users'>
         <h2 className='scrum-master__users__header'>Teilnehmer:</h2>

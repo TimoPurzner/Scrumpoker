@@ -9,10 +9,17 @@ import Login, { route as loginRoute } from './sites/login/login';
 import EstimationView, {
   route as estimationViewRoute,
 } from './sites/estimation-room/estimation-view';
+import WaveImg from './assets/hero-wave1.svg';
 
 function App() {
   return (
     <Router>
+      <img
+        className="wave"
+        src={WaveImg}
+        aria-hidden="true"
+        alt="Wave image floating in the background."
+      />
       <Switch>
         <Route exact path={loginRoute} component={Login} />
         <Route exact path={ScrumMasterViewRoute} component={ScrumMasterView} />

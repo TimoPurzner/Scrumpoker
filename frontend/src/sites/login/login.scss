@@ -1,20 +1,18 @@
 @import '../../media-queries.scss';
 .login {
-  width: 30%;
-  margin: auto;
-  margin-top: 5%;
-  @include  media-mobile {
-    width: 100%;
-  }
-  @include  media-tablet {
-    width: 80%;
-  }
   &__header {
     width: 100%;
   }
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2em;
+
+    @include media-mobile {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
   &__user {
-    display: flex;
-    flex-direction: column;
     &__header {
       margin-bottom: 0.5em;
     }
@@ -29,7 +27,6 @@
 
   &__form {
     display: grid;
-    grid-template-columns: 100px 1fr;
     align-items: center;
     gap: 1em;
 

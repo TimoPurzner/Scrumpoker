@@ -9,11 +9,16 @@
     box-shadow: inset 0 0 3px $secondary;
     border-radius: 4px;
   }
-  
+
   ::-webkit-scrollbar-thumb {
     background: $primary;
     border-radius: 4px;
   }
+
+  > :not(:last-child) {
+    margin-bottom: 2em;
+  }
+
   &__header {
     width: 40%;
     @include media-all {
@@ -31,13 +36,11 @@
     @include media-mobile {
       display: flex;
       overflow: auto;
-    
     }
   }
-
 }
 
-.card {
+.poker-card {
   &__label {
     display: inline-flex;
     color: white;
