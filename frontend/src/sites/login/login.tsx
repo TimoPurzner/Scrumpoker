@@ -14,14 +14,16 @@ export default function Login() {
   const [name, setName] = useState('');
   const [roomId, setRommId] = useState('');
   const [joinRoomLoading, setJoinRoomLoading] = useState(false);
+  const [createRoomLoading, setCreateRoomLoading] = useState(false);
   const [entryRoomActive, setEntryRoomActive] = useState(false);
   const [errors, setErrors] = useState<String[]>([]);
 
   async function createRoom() {
+    setCreateRoomLoading(true);
     api('estimation_rooms/', { method: 'POST' })
       .then((estimationRoom: EstimationRoom) => {
         history.push(scrumMasterRoute.replace(':id', estimationRoom._id));
-      });
+      }).finally( () => setCreateRoomLoading(false));
   }
 
   async function joinRoom() {
@@ -85,7 +87,7 @@ export default function Login() {
         </div>
       </div>
       <h2>ODER</h2>
-      <Button className='login__create' onClick={createRoom}>
+      <Button className='login__create' loading={createRoomLoading} onClick={createRoom}>
         Raum erstellen
       </Button>
     </div>
