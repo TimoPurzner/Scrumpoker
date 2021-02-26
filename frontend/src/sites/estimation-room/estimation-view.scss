@@ -69,8 +69,7 @@
   &__input {
     display: none;
 
-    &:checked + .card__label {
-      // background: green;
+    &:checked + .poker-card__label {
       box-shadow: 0 0 25px 0 rgba(75, 190, 255, 0.8);
       transform: scale(1.1);
     }
