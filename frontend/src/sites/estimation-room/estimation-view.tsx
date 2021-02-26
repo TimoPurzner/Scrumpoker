@@ -23,6 +23,7 @@ export default function EstimationView() {
   }, [currentStory]);
 
   useEffect(() => {
+    
     api(`estimation_rooms/${id}`)
       .then((estimationRoom: EstimationRoom) => {
         setCurrentStory(estimationRoom.story);
@@ -30,7 +31,12 @@ export default function EstimationView() {
       .catch((_) => history.push(loginRoute));
     const realTimeUpdates = async () => {
       const socket = await connectToRoom(id);
-      onMessage(socket, (data: WSType) => setCurrentStory(data.room.story));
+      onMessage(socket, (data: WSType) => {
+        let newStory = data.room.story;
+        // use effect does not trigg on same string .. hack to force it
+        setCurrentStory('');
+        setCurrentStory(newStory);
+      });
       socket.onerror = () => {
         console.log('Fehler bei der Websocket verbindung');
       };
