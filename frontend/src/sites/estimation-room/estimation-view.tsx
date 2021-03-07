@@ -5,44 +5,37 @@ import api from '../../api/http-client';
 import { useHistory, useParams } from 'react-router-dom';
 import { connectToRoom, onMessage } from '../../api/ws-client';
 import WSType from '../../model/ws-type';
+import EstimationCardSet from '../../components/estimation-cards/estimation-card-set';
 import './estimation-view.scss';
 
 const route = '/estimation-room/:id';
 export default function EstimationView() {
   const { id } = useParams<Record<string, string>>();
   const history = useHistory();
+  const estimationCardForm = useRef<any>(null);
   const [currentStory, setCurrentStory] = useState('');
-  const estimationForm = useRef(null);
   const estimationOptions = ['1', '2', '3', '5', '8', '13', '20', '40', '?'];
 
   useEffect(() => {
-    const currentForm = estimationForm.current;
-    if (currentForm) {
-      (currentForm as HTMLFormElement).reset();
-    }
-  }, [currentStory]);
-
-  useEffect(() => {
-    
     api(`estimation_rooms/${id}`)
       .then((estimationRoom: EstimationRoom) => {
         setCurrentStory(estimationRoom.story);
       })
       .catch((_) => history.push(loginRoute));
-    const realTimeUpdates = async () => {
+    realTimeUpdates();
+  }, [id, history]);
+
+  const realTimeUpdates = async () => {
       const socket = await connectToRoom(id);
       onMessage(socket, (data: WSType) => {
         let newStory = data.room.story;
-        // use effect does not trigg on same string .. hack to force it
-        setCurrentStory('');
+        estimationCardForm.current.resetForm();
         setCurrentStory(newStory);
       });
       socket.onerror = () => {
         console.log('Fehler bei der Websocket verbindung');
       };
     };
-    realTimeUpdates();
-  }, [id, history]);
 
   function sendEstimation(estimation: string) {
     const user_id = sessionStorage.getItem('user_id');
@@ -67,25 +60,11 @@ export default function EstimationView() {
         <div className='estimation-view__story'>{currentStory}</div>
         <h3 className='estimation-view__estimate'>Meine Schätzung</h3>
       </div>
-      <form ref={estimationForm}>
-        <div className='estimation-view__cards'>
-          {estimationOptions.map((estimationOption, index) => (
-            <span key={index} className='poker-card'>
-              <input
-                id={index.toString()}
-                className='poker-card__input'
-                type='radio'
-                name='estimation'
-                value={estimationOption}
-                onChange={() => sendEstimation(estimationOption)}
-              />
-              <label className='poker-card__label' htmlFor={index.toString()}>
-                {estimationOption}
-              </label>
-            </span>
-          ))}
-        </div>
-      </form>
+      <EstimationCardSet
+        ref={estimationCardForm}
+        onChange={ (option: string) => {sendEstimation(option)}}
+        options={estimationOptions}
+      />
     </div>
   );
 }
