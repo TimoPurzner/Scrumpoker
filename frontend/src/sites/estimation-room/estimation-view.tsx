@@ -58,7 +58,6 @@ export default function EstimationView() {
         </p>
         <h2>Aktuelle Story:</h2>
         <div className='estimation-view__story'>{currentStory}</div>
-        <h3 className='estimation-view__estimate'>Meine Schätzung</h3>
       </div>
       <EstimationCardSet
         ref={estimationCardForm}
