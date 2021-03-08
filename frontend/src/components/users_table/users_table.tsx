@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import api from '../../api/http-client';
-import { connectToRoom, onMessage } from '../../api/ws-client';
+import { connectToRoomUsers, onMessage } from '../../api/ws-client';
 import EstimationRoom from '../../model/estimation-room';
 import User from '../../model/user';
-import WSType from '../../model/ws-type';
 
 import './users_table.scss';
 
@@ -21,9 +20,9 @@ export default function UsersTable(props: UsersTableProps) {
       setUsers(estimationRoom.users);
     });
     const realTimeUpdates = async () => {
-      const socket = await connectToRoom(id);
-      onMessage(socket, (data: WSType) => {
-        setUsers(data.users);
+      const socket = await connectToRoomUsers(id);
+      onMessage(socket, (data: User[]) => {
+        setUsers(data);
       });
       socket.onerror = () => {
         setError(true);

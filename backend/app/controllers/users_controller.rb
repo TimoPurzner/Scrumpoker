@@ -17,7 +17,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      EstimationRoomChannel.broadcast_to(@user.estimation_room, {room: @user.estimation_room, users: @user.estimation_room.users})
+      EstimationRoomChannelUsers.broadcast_to(@user.estimation_room, @user.estimation_room.users)
       render json: @user, status: :created, location: @user
     else
       render json: @user.errors, status: :unprocessable_entity
@@ -27,7 +27,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   def update
     if @user.update(user_params)
-      EstimationRoomChannel.broadcast_to(@user.estimation_room, {room: @user.estimation_room, users: @user.estimation_room.users})
+      EstimationRoomChannelUsers.broadcast_to(@user.estimation_room, @user.estimation_room.users)
       render json: @user
     else
       render json: @user.errors, status: :unprocessable_entity

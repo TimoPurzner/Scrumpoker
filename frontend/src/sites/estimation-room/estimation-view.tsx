@@ -1,19 +1,19 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import EstimationRoom from '../../model/estimation-room';
 import { route as loginRoute } from '../login/login';
 import api from '../../api/http-client';
 import { useHistory, useParams } from 'react-router-dom';
-import { connectToRoom, onMessage } from '../../api/ws-client';
-import WSType from '../../model/ws-type';
+import { connectToRoom, connectToRoomUsers, onMessage } from '../../api/ws-client';
 import EstimationCardSet from '../../components/estimation-cards/estimation-card-set';
+import User from '../../model/user';
 import './estimation-view.scss';
 
 const route = '/estimation-room/:id';
 export default function EstimationView() {
   const { id } = useParams<Record<string, string>>();
   const history = useHistory();
-  const estimationCardForm = useRef<any>(null);
   const [currentStory, setCurrentStory] = useState('');
+  const [estimation, setEstimation] = useState<string>('');
   const estimationOptions = ['1', '2', '3', '5', '8', '13', '20', '40', '?'];
 
   useEffect(() => {
@@ -22,29 +22,38 @@ export default function EstimationView() {
         setCurrentStory(estimationRoom.story);
       })
       .catch((_) => history.push(loginRoute));
-    realTimeUpdates();
-  }, [id, history]);
-
-  const realTimeUpdates = async () => {
+    const realTimeUpdates = async () => {
       const socket = await connectToRoom(id);
-      onMessage(socket, (data: WSType) => {
-        let newStory = data.room.story;
-        estimationCardForm.current.resetForm();
+      onMessage(socket, (data: EstimationRoom) => {
+        let newStory = data.story;
         setCurrentStory(newStory);
       });
       socket.onerror = () => {
         console.log('Fehler bei der Websocket verbindung');
       };
     };
+    const usersGotUpdated = async () => {
+      const socket = await connectToRoomUsers(id);
+      onMessage(socket, (users: User[]) => {
+        //estimationCardForm.current.resetForm();
+        const userId = sessionStorage.getItem('user_id');
+        const user = users.find( (user: User) => user._id === userId);
+        setEstimation(user?.estimation?? '');
+      });
+    }
+    realTimeUpdates();
+    usersGotUpdated();
+  }, [id, history]);
 
-  function sendEstimation(estimation: string) {
+  useEffect(() => {
+    if(!estimation) return;
     const user_id = sessionStorage.getItem('user_id');
     api(`users/${user_id}`, {
       headers: { 'Content-Type': 'application/json' },
       method: 'put',
       body: JSON.stringify({ user: { estimation: estimation } }),
     });
-  }
+  }, [estimation]);
 
   return (
     <div className='estimation-view container'>
@@ -60,8 +69,10 @@ export default function EstimationView() {
         <div className='estimation-view__story'>{currentStory}</div>
       </div>
       <EstimationCardSet
-        ref={estimationCardForm}
-        onChange={ (option: string) => {sendEstimation(option)}}
+        value={estimation}
+        onChange={ (option: string) => {
+          setEstimation(option);
+        }}
         options={estimationOptions}
       />
     </div>

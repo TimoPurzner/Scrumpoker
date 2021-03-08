@@ -32,7 +32,8 @@ class EstimationRoomsController < ApplicationController
           user.save
         end
       end
-      EstimationRoomChannel.broadcast_to(@estimation_room, {room: @estimation_room, users: @estimation_room.users})
+      EstimationRoomChannel.broadcast_to(@estimation_room, @estimation_room)
+      EstimationRoomChannelUsers.broadcast_to(@estimation_room, @estimation_room.users)
       render json: @estimation_room
     else
       render json: @estimation_room.errors, status: :unprocessable_entity

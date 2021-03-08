@@ -23,6 +23,27 @@ function connectToRoom(id: string) {
     });
 }
 
+export function connectToRoomUsers(id: string) {
+    return new Promise<WebSocket>(function(resolve, reject) {
+        const socket = new WebSocket(`${BASE_URL}/cable`);
+        socket.onopen = function() {
+            const msg = {
+                command: 'subscribe',
+                identifier: JSON.stringify({
+                    id: id,
+                    channel: 'EstimationRoomChannelUsers'
+                }),
+            };
+            socket.send(JSON.stringify(msg));
+            resolve(socket);
+        };
+        socket.onerror = function(err) {
+            reject(err);
+        };
+
+    });
+}
+
 function onMessage(socket: WebSocket, cb: any) {
         socket.onmessage = function(event) {
             const response = event.data;

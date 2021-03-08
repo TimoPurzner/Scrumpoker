@@ -4,6 +4,7 @@ import './estimation-cards.scss';
 
 type EstimationCardSetProps = {
     className?: string;
+    value: string;
     options: string[];
     onChange: Function;
     onReset?: Function;
@@ -32,6 +33,7 @@ const EstimationCardSet = forwardRef((props: EstimationCardSetProps, ref) => {
                 <span key={index} className='poker-card'>
                 <input
                     id={index.toString()}
+                    checked={option === props.value}
                     className='poker-card__input'
                     type='radio'
                     name='estimation'
