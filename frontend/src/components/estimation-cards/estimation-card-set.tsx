@@ -1,5 +1,5 @@
 
-import { forwardRef, useRef, useEffect, useImperativeHandle } from 'react';
+import { useRef } from 'react';
 import './estimation-cards.scss';
 
 type EstimationCardSetProps = {
@@ -10,21 +10,9 @@ type EstimationCardSetProps = {
     onReset?: Function;
   };
 
-const EstimationCardSet = forwardRef((props: EstimationCardSetProps, ref) => {
+export default function EstimationCardSet(props: EstimationCardSetProps) {
     
     const estimationForm = useRef(null);
-
-    useImperativeHandle(ref, () => ({
-
-        resetForm() {
-            const form = estimationForm.current;
-            if (form) {
-                (form as HTMLFormElement).reset();
-                if(props.onReset) props.onReset();
-            }
-        }
-
-    })) as any;
 
     return (
         <form ref={estimationForm}>
@@ -48,6 +36,4 @@ const EstimationCardSet = forwardRef((props: EstimationCardSetProps, ref) => {
             </div>
       </form>
     )
-});
-
-export default EstimationCardSet;
+};
