@@ -8,7 +8,7 @@ import User from '../../model/user';
 import EstimationRoom from '../../model/estimation-room';
 import Button from '../../components/button/button';
 
-const route = '/';
+const route = '/login';
 export default function Login() {
   const history = useHistory();
   const [name, setName] = useState('');
@@ -61,7 +61,7 @@ export default function Login() {
       <div className='login__grid'>
         <div className='login__user card'>
           <h2 className='login__user__header'>Login</h2>
-          <form onSubmit={e => e.preventDefault()} className='login__form'>
+          <form onSubmit={(e) => e.preventDefault()} className='login__form'>
             <label htmlFor='name'>Name:</label>
             <input
               id='name'
