@@ -31,8 +31,10 @@
     gap: 1em;
 
     &__button {
+      height: 4em;
       grid-column-start: 2;
       width: 60%;
+      margin-top: 1em;
       margin-left: auto;
     }
   }

@@ -1,6 +1,38 @@
+@import '../../colors.scss';
+
 button {
+  padding: 0.5em;
+  border: 0px solid $primary;
+  border-radius: 0.5em;
+  background-color: $secondary;
+  color: $light-text;
+  cursor: pointer;
+  font-weight: bold;
+  outline: none;
+
+  transition: opacity 300ms ease-in-out, background-color 300ms ease-in-out;
+
+  &:hover {
+    background-color: $secondary;
+    color: $light-text;
+  }
+
+  &.big {
+    font-size: 1.2em;
+    border-width: 3px;
+  }
+
+  &.success {
+    border-color: $success;
+  }
+
+  &.error {
+    border-color: $error;
+  }
+
   &:disabled {
     opacity: 0.3;
+    background-color: $secondary;
   }
 
   &--loading {

@@ -16,34 +16,6 @@ body {
   font-family: 'Rubik', sans-serif;
 }
 
-button,
-input[type='submit'] {
-  padding: 0.5em;
-  border: 2px solid $primary;
-  border-radius: 0.3em;
-  background-color: inherit;
-  cursor: pointer;
-  font-weight: bold;
-  outline: none;
-  &:hover {
-    background-color: $secondary;
-    color: $contrast;
-  }
-
-  &.big {
-    font-size: 1.2em;
-    border-width: 3px;
-  }
-
-  &.success {
-    border-color: $success;
-  }
-
-  &.error {
-    border-color: $error;
-  }
-}
-
 label {
   font-size: 1.2em;
 }
@@ -82,7 +54,7 @@ h2 {
   &:hover:before {
     content: attr(tooltip);
     background-color: $secondary;
-    color: $contrast;
+    color: $light-text;
     border-radius: 0.2em;
     padding: 0.2em;
     text-align: center;
@@ -103,12 +75,15 @@ div.error {
 
 table {
   width: 50%;
-  box-shadow: 0 0 40px 0 lighten($primary, 40%);
+  box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12);
   border-collapse: collapse;
   thead {
     background-color: $primary;
     th {
-      color: $contrast;
+      color: $light-text;
       font-size: 1.3em;
       padding: 0.8em;
       text-align: left;
@@ -116,12 +91,12 @@ table {
   }
   tbody {
     tr:nth-of-type(even) {
-      background-color: darken($contrast, 5%);
+      background-color: darken($background, 5%);
     }
     tr {
       &:hover {
         background-color: $secondary;
-        color: $contrast;
+        color: $light-text;
       }
     }
     td {

@@ -76,7 +76,7 @@ export default function ScrumMasterView() {
         </div>
       </div>
       <div className='scrum-master__users'>
-        <h2 className='scrum-master__users__header'>Teilnehmer:</h2>
+        <h2>Teilnehmer:</h2>
         <UsersTable room_id={id} />
       </div>
     </div>
