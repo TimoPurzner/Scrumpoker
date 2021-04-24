@@ -3,9 +3,8 @@ import EstimationRoom from '../../model/estimation-room';
 import { route as loginRoute } from '../login/login';
 import api from '../../api/http-client';
 import { useHistory, useParams } from 'react-router-dom';
-import { connectToRoom, connectToRoomUsers, onMessage } from '../../api/ws-client';
+import { connectToRoom, onMessage } from '../../api/ws-client';
 import EstimationCardSet from '../../components/estimation-cards/estimation-card-set';
-import User from '../../model/user';
 import './estimation-view.scss';
 
 const route = '/estimation-room/:id';
@@ -27,22 +26,13 @@ export default function EstimationView() {
       onMessage(socket, (data: EstimationRoom) => {
         let newStory = data.story;
         setCurrentStory(newStory);
+        if(data.status === 'reset') setEstimation('');
       });
       socket.onerror = () => {
         console.log('Fehler bei der Websocket verbindung');
       };
     };
-    const usersGotUpdated = async () => {
-      const socket = await connectToRoomUsers(id);
-      onMessage(socket, (users: User[]) => {
-        //estimationCardForm.current.resetForm();
-        const userId = sessionStorage.getItem('user_id');
-        const user = users.find( (user: User) => user._id === userId);
-        setEstimation(user?.estimation?? '');
-      });
-    }
     realTimeUpdates();
-    usersGotUpdated();
   }, [id, history]);
 
   useEffect(() => {

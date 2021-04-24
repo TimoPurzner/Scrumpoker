@@ -26,6 +26,9 @@ class EstimationRoomsController < ApplicationController
   # PATCH/PUT /estimation_rooms/1
   def update
     if @estimation_room.update(estimation_room_params)
+      @estimation_room.status = 'reset'
+      EstimationRoomChannel.broadcast_to(@estimation_room, @estimation_room)
+      @estimation_room.status = 'voting'
       if(params['story'])
         @estimation_room.users.each do |user|
           user.estimation = nil
