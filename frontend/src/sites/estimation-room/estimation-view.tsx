@@ -14,6 +14,7 @@ export default function EstimationView() {
   const [currentStory, setCurrentStory] = useState('');
   const [estimation, setEstimation] = useState<string>('');
   const estimationOptions = ['1', '2', '3', '5', '8', '13', '20', '40', '?'];
+  let windowCloseEventListener: EventListener;
 
   useEffect(() => {
     api(`estimation_rooms/${id}`)
@@ -44,6 +45,23 @@ export default function EstimationView() {
       body: JSON.stringify({ user: { estimation: estimation } }),
     });
   }, [estimation]);
+
+  useEffect(() => {
+    windowCloseEventListener = (ev: Event) => {
+      const user_id = sessionStorage.getItem('user_id');
+      sessionStorage.removeItem('user_id')
+      api(`users/${user_id}`, {
+        headers: { 'Content-Type': 'application/json' },
+        method: 'DELETE',
+      });
+    };
+    window.addEventListener('beforeunload', windowCloseEventListener);
+    return function cleanup() {
+      window.removeEventListener('beforeunload', windowCloseEventListener);
+    };
+  }, [])
+
+  
 
   return (
     <div className='estimation-view container'>

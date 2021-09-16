@@ -36,7 +36,10 @@ class UsersController < ApplicationController
 
   # DELETE /users/1
   def destroy
+    room = @user.estimation_room;
     @user.destroy
+    room.reload
+    EstimationRoomChannelUsers.broadcast_to(room, room.users)
   end
 
   private

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import './App.scss';
 
 import S404 from './sites/s404/s404';
@@ -10,6 +10,20 @@ import EstimationView, {
   route as estimationViewRoute,
 } from './sites/estimation-room/estimation-view';
 import WaveImg from './assets/hero-wave1.svg';
+
+// @ts-ignore
+const PrivateRoute = ({component: Component, ...rest}) => (
+    <Route {...rest} render={props => (
+      sessionStorage.getItem('user_id') ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to={{
+          pathname: '/',
+            state: {from: props.location}
+        }}/>
+      )
+    )}/>
+);
 
 function App() {
   return (
@@ -23,7 +37,7 @@ function App() {
       <Switch>
         <Route exact path={loginRoute} component={Login} />
         <Route exact path={ScrumMasterViewRoute} component={ScrumMasterView} />
-        <Route exact path={estimationViewRoute} component={EstimationView} />
+        <PrivateRoute exact path={estimationViewRoute} component={EstimationView} />
         <Route component={S404} />
       </Switch>
     </Router>
